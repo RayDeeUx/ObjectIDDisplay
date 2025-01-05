@@ -16,7 +16,6 @@ public:
 	cocos2d::ccColor4B m_color = {0, 0, 0, 0};
 	int m_font = -1;
 	bool m_enabled = false;
-	bool m_extraSafe = false;
 	bool m_readableFont = false;
 	std::string m_fontFile = "bigFont.fnt";
 

@@ -17,7 +17,6 @@ void updateSettings(Manager* fields = Manager::getSharedInstance(), const Mod* m
 	fields->m_color = mod->getColor("color");
 	fields->m_font = mod->getInt("stackSizeFont");
 	fields->m_enabled = mod->getBool("enabled");
-	fields->m_extraSafe = mod->getBool("extraSafety");
 	fields->m_readableFont = mod->getBool("readableMode");
 	fields->m_fontFile = "bigFont.fnt";
 	if (fields->m_font == 0) return;
@@ -78,27 +77,11 @@ class $modify(MyEditorUI, EditorUI) {
 		if (!fields->m_enabled) return result;
 		CCLabelBMFont* label = makeLabel(id);
 		float padding = fields->m_padding;
-		if (fields->m_extraSafe) {
-			ButtonSprite* buttonSprite = result->getChildByType<ButtonSprite>(0);
-			if (!buttonSprite) return result;
-			GameObject* gameObject = buttonSprite->getChildByType<GameObject>(0);
-			if (!gameObject || gameObject->m_objectID != id) return result;
-			label->setPosition(
-				{
-					buttonSprite->getPositionX() + buttonSprite->getContentWidth() / 2.f - padding,
-					buttonSprite->getPositionY() - buttonSprite->getContentHeight() / 2.f + padding
-				}
-			);
-			label->setZOrder(gameObject->getZOrder() + 2);
-			buttonSprite->addChild(label);
-			buttonSprite->updateLayout();
-		} else {
-			padding /= 2.f;
-			label->setPosition({35 - padding, 2 + padding});
-			label->setZOrder(1);
-			result->addChild(label);
-			result->updateLayout();
-		}
+		padding /= 2.f;
+		label->setPosition({33 - padding, 6 + padding});
+		label->setZOrder(1);
+		result->addChild(label);
+		result->updateLayout();
 		return result;
 	}
 };

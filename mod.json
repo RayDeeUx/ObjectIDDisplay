@@ -18,12 +18,6 @@
 			"type": "bool",
 			"default": true
 		},
-		"extraSafety": {
-			"name": "Extra Safety Mode",
-			"description": "Performs (optional) additional checks to ensure that there is a valid GameObject before creating the object ID.\n\n<cy>Turning this off may shave off a few seconds or have no impact on level editor load times, depending on your device.</c>",
-			"type": "bool",
-			"default": true
-		},
 		"readableMode": {
 			"name": "Readable Displays (Stronger Blending)",
 			"description": "Make the info label easier to read across a far larger variety of scenarios.\n\n<cy>Recommended for the</c> <cl>chatFont</c> <cy>font only.</c>\n\n<cy>For best results, make sure the opacity setting</c> <cl>(seen in \"Stack Size Color + Opacity\")</c> <cy>is set to</c> <cl>1.00</c><cy>!</c>",
@@ -68,7 +62,7 @@
 			"name": "Object ID Display Positioning Padding",
 			"description": "Adjust the amount of padding for positioning the stack size text.",
 			"type": "float",
-			"default": 7.75,
+			"default": 0.0,
 			"min": 0.00,
 			"max": 10.0,
 			"control": {
