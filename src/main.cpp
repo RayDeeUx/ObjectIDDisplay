@@ -1,34 +1,54 @@
+#include <Geode/modify/EditLevelLayer.hpp>
+#include <Geode/modify/PlayLayer.hpp>
 #include <Geode/modify/MenuLayer.hpp>
 #include <Geode/modify/EditorUI.hpp>
 #include "Manager.hpp"
 
-#define getBool Mod::get()->getSettingValue<bool>
-#define getDouble Mod::get()->getSettingValue<double>
-#define getInt Mod::get()->getSettingValue<int64_t>
-#define getColor Mod::get()->getSettingValue<cocos2d::ccColor4B>
+#define getBool getSettingValue<bool>
+#define getDouble getSettingValue<double>
+#define getInt getSettingValue<int64_t>
+#define getColor getSettingValue<cocos2d::ccColor4B>
 
 using namespace geode::prelude;
+
+void updateSettings(Manager* fields = Manager::getSharedInstance(), const Mod* mod = Mod::get()) {
+	fields->m_padding = mod->getDouble("padding");
+	fields->m_scale = mod->getDouble("scale");
+	fields->m_color = mod->getColor("color");
+	fields->m_font = mod->getInt("stackSizeFont");
+	fields->m_enabled = mod->getBool("enabled");
+	fields->m_extraSafe = mod->getBool("extraSafety");
+	fields->m_readableFont = mod->getBool("readableMode");
+	fields->m_fontFile = "bigFont.fnt";
+	if (fields->m_font == 0) return;
+	if (fields->m_font == -1) {
+		fields->m_fontFile = "goldFont.fnt";
+	} else if (fields->m_font == -2) {
+		fields->m_fontFile = "chatFont.fnt";
+	} else if (fields->m_font > 0) {
+		fields->m_fontFile = fmt::format("gjFont{:02d}.fnt", fields->m_font);
+	}
+}
 
 class $modify(MyMenuLayer, MenuLayer) {
 	bool init() {
 		if (!MenuLayer::init()) return false;
-		auto fields = Manager::getSharedInstance();
-		fields->m_padding = getDouble("padding");
-		fields->m_scale = getDouble("scale");
-		fields->m_color = getColor("color");
-		fields->m_font = getInt("stackSizeFont");
-		fields->m_enabled = getBool("enabled");
-		fields->m_extraSafe = getBool("extraSafety");
-		fields->m_readableFont = getBool("readableMode");
-		fields->m_fontFile = "bigFont.fnt";
-		if (fields->m_font == 0) return true;
-		if (fields->m_font == -1) {
-			fields->m_fontFile = "goldFont.fnt";
-		} else if (fields->m_font == -2) {
-			fields->m_fontFile = "chatFont.fnt";
-		} else if (fields->m_font > 0) {
-			fields->m_fontFile = fmt::format("gjFont{:02d}.fnt", fields->m_font);
-		}
+		updateSettings();
+		return true;
+	}
+};
+
+class $modify(MyPlayLayer, PlayLayer) {
+	void setupHasCompleted() {
+		PlayLayer::setupHasCompleted();
+		updateSettings();
+	}
+};
+
+class $modify(MyEditLevelLayer, EditLevelLayer) {
+	bool init(GJGameLevel* p0) {
+		if (!EditLevelLayer::init(p0)) return false;
+		updateSettings();
 		return true;
 	}
 };
