@@ -7,7 +7,7 @@
 	},
 	"id": "raydeeux.gameobjectidstacksize",
 	"name": "ObjectIDDisplay",
-	"version": "v1.0.4",
+	"version": "v1.0.5",
 	"developer": "RayDeeUx",
 	"description": "Show an object's ID in the level editor in its lower right corner.",
 	"repository": "https://github.com/RayDeeUx/ObjectIDDisplay",
