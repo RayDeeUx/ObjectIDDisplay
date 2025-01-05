@@ -7,7 +7,9 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 project(ObjectIDDisplay VERSION 1.0.0)
 
 add_library(${PROJECT_NAME} SHARED
-    src/main.cpp
+        src/main.cpp
+        src/Manager.cpp
+        src/Manager.hpp
 )
 
 if (NOT DEFINED ENV{GEODE_SDK})

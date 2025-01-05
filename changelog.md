@@ -1,4 +1,6 @@
 # ObjectIDDisplay Changelog
+## v1.0.5
+- Fix a bug where the mod wouldn't work without RaZoom's Object Groups mod. Not sure how that happened.
 ## v1.0.4
 - Attempt to clean up the code.
 - Attempt to optimize the code, with help from Alphalaneous.

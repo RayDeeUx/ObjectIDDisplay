@@ -1,4 +1,6 @@
+#include <Geode/modify/MenuLayer.hpp>
 #include <Geode/modify/EditorUI.hpp>
+#include "Manager.hpp"
 
 #define getBool Mod::get()->getSettingValue<bool>
 #define getDouble Mod::get()->getSettingValue<double>
@@ -7,23 +9,10 @@
 
 using namespace geode::prelude;
 
-class $modify(MyEditorUI, EditorUI) {
-	static void onModify(auto& self) {
-		(void) self.setHookPriority("EditorUI::getCreateBtn", -2123456789);
-	}
-	struct Fields {
-		float m_padding;
-		float m_scale;
-		ccColor4B m_color;
-		int m_font;
-		bool m_enabled;
-		bool m_extraSafe;
-		bool m_readableFont;
-		std::string m_fontFile;
-	};
-	bool init(LevelEditorLayer* editorLayer) {
-		if (!EditorUI::init(editorLayer)) return false;
-		auto fields = m_fields.self();
+class $modify(MyMenuLayer, MenuLayer) {
+	bool init() {
+		if (!MenuLayer::init()) return false;
+		auto fields = Manager::getSharedInstance();
 		fields->m_padding = getDouble("padding");
 		fields->m_scale = getDouble("scale");
 		fields->m_color = getColor("color");
@@ -42,28 +31,34 @@ class $modify(MyEditorUI, EditorUI) {
 		}
 		return true;
 	}
+};
+
+class $modify(MyEditorUI, EditorUI) {
+	static void onModify(auto& self) {
+		(void) self.setHookPriority("EditorUI::getCreateBtn", -2123456789);
+	}
 	CCLabelBMFont* makeLabel(int id) {
-		auto fields = m_fields.self();
-		auto label = CCLabelBMFont::create(fmt::format("{}", id).c_str(), fields->m_fontFile.c_str());
-		auto nodeID = fmt::format("{}/objectID-{}-stacksize", Mod::get()->getID(), id);
-		auto color = m_fields->m_color;
+		auto fields = Manager::getSharedInstance();
+		const auto label = CCLabelBMFont::create(fmt::format("{}", id).c_str(), fields->m_fontFile.c_str());
+		const auto nodeID = fmt::format("{}/objectID-{}-stacksize", Mod::get()->getID(), id);
+		const auto [r, g, b, a] = fields->m_color;
 		if (fields->m_readableFont && fields->m_font == -2)
 			label->setBlendFunc({GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA});
 		label->setAlignment(kCCTextAlignmentRight);
 		label->setAnchorPoint({1.f, 0.f});
-		label->setColor({color.r, color.g, color.b});
-		label->setOpacity(color.a);
+		label->setColor({r, g, b});
+		label->setOpacity(a);
 		label->setScale(fields->m_scale);
 		label->setID(nodeID);
 		return label;
 	}
 	CreateMenuItem* getCreateBtn(int id, int bg) {
-		auto result = EditorUI::getCreateBtn(id, bg);
-		auto fields = m_fields.self();
+		auto fields = Manager::getSharedInstance();
+		const auto result = EditorUI::getCreateBtn(id, bg);
 		if (!fields->m_enabled) return result;
 		CCLabelBMFont* label = makeLabel(id);
-		auto padding = m_fields->m_padding;
-		if (m_fields->m_extraSafe) {
+		float padding = fields->m_padding;
+		if (fields->m_extraSafe) {
 			ButtonSprite* buttonSprite = result->getChildByType<ButtonSprite>(0);
 			if (!buttonSprite) return result;
 			GameObject* gameObject = buttonSprite->getChildByType<GameObject>(0);
