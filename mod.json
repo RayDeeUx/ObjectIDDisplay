@@ -1,13 +1,14 @@
 {
-	"geode": "4.0.1",
+	"geode": "4.3.1",
 	"gd": {
 		"win": "2.2074",
 		"mac": "2.2074",
-		"android": "2.2074"
+		"android": "2.2074",
+		"ios": "2.2074"
 	},
 	"id": "raydeeux.gameobjectidstacksize",
 	"name": "ObjectIDDisplay",
-	"version": "v1.0.5",
+	"version": "v1.0.6",
 	"developer": "RayDeeUx",
 	"description": "Show an object's ID in the level editor in its lower right corner.",
 	"repository": "https://github.com/RayDeeUx/ObjectIDDisplay",
@@ -47,7 +48,7 @@
 			"type": "float",
 			"default": 0.5,
 			"min": 0.01,
-			"max": 1.00,
+			"max": 1,
 			"control": {
 				"input": true,
 				"slider": true,
@@ -62,9 +63,9 @@
 			"name": "Object ID Display Positioning Padding",
 			"description": "Adjust the amount of padding for positioning the stack size text.",
 			"type": "float",
-			"default": 0.0,
-			"min": 0.00,
-			"max": 10.0,
+			"default": 0,
+			"min": 0,
+			"max": 10,
 			"control": {
 				"input": true,
 				"slider": true,
@@ -79,7 +80,12 @@
 			"name": "Object ID Display Color + Opacity",
 			"description": "Adjust the color/opacity of the stack size text.\n\n<cy>Recommended for the</c> <cl>chatFont</c> <cy>font only.</c>",
 			"type": "rgba",
-			"default": [255, 255, 255, 255]
+			"default": [
+				255,
+				255,
+				255,
+				255
+			]
 		}
 	},
 	"issues": {
