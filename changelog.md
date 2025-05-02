@@ -1,4 +1,6 @@
 # ObjectIDDisplay Changelog
+## v1.0.6
+- Experimental iOS support.
 ## v1.0.5
 - Fix a bug where the mod wouldn't work without RaZoom's Object Groups mod. Not sure how that happened.
 - Redo positioning for object ID displays to always be relative to the object button.
